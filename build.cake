@@ -76,11 +76,11 @@ public void RunMiniCover(
     var excludeParams = string.Join(" ", (excludePatterns ?? new string[0]).Select(pattern => $"--exclude-sources {pattern}"));
     var extraSourcesParams = string.Join(" ", (extraSourceDirs ?? new string[0]).Select(pattern => $"--sources {pattern}"));
     DotNetCoreTool(
-        "./tools/tools.csproj",
+        "./tools/Tools.csproj",
         "minicover",
         $"instrument --workdir ../ --assemblies test/**/bin/**/*.dll --sources src/**/*.cs {extraSourcesParams} {excludeParams}"
     );
-    DotNetCoreTool("./tools/tools.csproj", "minicover", "reset");
+    DotNetCoreTool("./tools/Tools.csproj", "minicover", "reset");
 
     var argumentCustomization = string.Join(" ", (excludeCategories ?? new string[0]).Select(category => $"--filter Category!={category}"));
     var testSettings = new DotNetCoreTestSettings
@@ -93,9 +93,9 @@ public void RunMiniCover(
         DotNetCoreTest(projectFile.FullPath, testSettings);
     });
 
-    DotNetCoreTool("./tools/tools.csproj", "minicover", "uninstrument --workdir  ../");
-    DotNetCoreTool("./tools/tools.csproj", "minicover", $"htmlreport --output {OutputPath} --workdir ../ --threshold {coverageThreshold}");
-    DotNetCoreTool("./tools/tools.csproj", "minicover", $"report --workdir ../ --threshold {coverageThreshold}");
+    DotNetCoreTool("./tools/Tools.csproj", "minicover", "uninstrument --workdir  ../");
+    DotNetCoreTool("./tools/Tools.csproj", "minicover", $"htmlreport --output {OutputPath} --workdir ../ --threshold {coverageThreshold}");
+    DotNetCoreTool("./tools/Tools.csproj", "minicover", $"report --workdir ../ --threshold {coverageThreshold}");
 }
 
 Task("Pack")
