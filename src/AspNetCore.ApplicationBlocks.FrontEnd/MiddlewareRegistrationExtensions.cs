@@ -211,13 +211,15 @@ namespace AspNetCore.ApplicationBlocks
         /// Optional: Specify `true` to enable AspNetCore Authentication.
         /// (Default: `true`)
         /// </param>
+        /// <param name="useSwagger"></param>
         /// <returns>The framework <see cref="IApplicationBuilder"/></returns>
         public static IApplicationBuilder UseDefaultApiMiddleware(
             this IApplicationBuilder app,
             Container container,
             IHostingEnvironment env,
             DiagnosticListener diagnosticListener = null,
-            bool useAuthentication = true
+            bool useAuthentication = true,
+            bool useSwagger = true
         )
         {
             return UseDefaultUiMiddleware(
@@ -225,9 +227,9 @@ namespace AspNetCore.ApplicationBlocks
                 container,
                 env,
                 diagnosticListener,
-                true,
-                false,
-                true
+                useSwagger,
+                useSpa: false,
+                useAuthentication: true
             );
         }
 

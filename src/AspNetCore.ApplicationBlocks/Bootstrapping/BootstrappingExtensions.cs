@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using SerilogEventLogger;
 using Microsoft.Extensions.DependencyModel;
 using SimpleInjector;

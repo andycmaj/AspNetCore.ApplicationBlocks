@@ -106,7 +106,7 @@ namespace AspNetCore.ApplicationBlocks
             Action<SwaggerGenOptions> swaggerOptions = null,
             Func<IHealthBuilder, IHealthBuilder> configureHealthCheck = null)
         {
-            var mvcBuilder = AddDefaultApiServices(services, container, env, swaggerOptions, configureHealthCheck);
+            var mvcBuilder = AddDefaultApiServices(services, container, env, useSwagger, swaggerOptions, configureHealthCheck);
 
             if (useSpa)
             {
@@ -166,6 +166,10 @@ namespace AspNetCore.ApplicationBlocks
         /// The framework <see cref="IHostingEnvironment"/> used to
         /// determine whether to enable environment-specific middleware
         /// </param>
+        /// <param name="useSwagger">
+        /// Optional: Specify `true` to enable Swagger API Spec generation using Swashbuckle.AspNetCore.
+        /// (Default: `true`)
+        /// </param>
         /// <param name="swaggerOptions">
         /// Optional: An <c>Action</c> of type <see cref="Action{SwaggerGenOptions}" /> used to configure
         /// Swagger spec generation.
@@ -179,6 +183,7 @@ namespace AspNetCore.ApplicationBlocks
             this IServiceCollection services,
             Container container,
             IHostingEnvironment env,
+            bool useSwagger = true,
             Action<SwaggerGenOptions> swaggerOptions = null,
             Func<IHealthBuilder, IHealthBuilder> configureHealthCheck = null
         )
@@ -199,7 +204,10 @@ namespace AspNetCore.ApplicationBlocks
             container.AddCorrelationId();
             services.AddCorrelationId();
 
-            services.AddSwaggerGen(swaggerOptions ?? ConfigureSwaggerGenDefaults(container));
+            if (useSwagger)
+            {
+                services.AddSwaggerGen(swaggerOptions ?? ConfigureSwaggerGenDefaults(container));
+            }
 
             configureHealthCheck = configureHealthCheck ?? (o => o);
             configureHealthCheck(AppMetricsHealth.CreateDefaultBuilder()
