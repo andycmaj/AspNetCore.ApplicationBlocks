@@ -2,8 +2,14 @@
 // ARGUMENT DEFAULTS
 //////////////////////////////////////////////////////////////////////
 
+var SemVerRegex =
+    new System.Text.RegularExpressions.Regex(@"^v[0-9]+.[0-9]+.[0-9]+");
+
 var DefaultTarget = Argument("target", "Default");
-var Configuration = Argument("configuration", "Debug");
+var GitTag = Argument("tag", string.Empty);
+var Configuration =
+    Argument("configuration", SemVerRegex.IsMatch(GitTag) ? "Release" : "Debug");
+
 var OutputPath = Argument("outputPath", ".artifacts");
 
 // Unit Tests
@@ -25,18 +31,40 @@ public void ForEachProject(string globPattern, Action<DirectoryPath, FilePath> p
     }
 }
 
+public void ForEachNugetPackage(Action<FilePath> nugetPackageAction, string globPattern = "src/**/bin/**/*.nupkg")
+{
+    var packages = GetFiles(globPattern);
+
+    if (!packages.Any())
+    {
+        Information("No packages to publish");
+    }
+
+    foreach (var packageFile in packages)
+    {
+        nugetPackageAction(packageFile);
+    }
+}
+
 //////////////////////////////////////////////////////////////////////
 // Tasks
 //////////////////////////////////////////////////////////////////////
 
 Setup(context =>
 {
-    Information($"Branch: {EnvironmentVariable("TRAVIS_BRANCH")}");
-    Information($"Tag: {EnvironmentVariable("TRAVIS_TAG")}");
+    Information($"Branch: {EnvironmentVariable("CIRCLE_BRANCH")}");
+    Information($"Tag: {EnvironmentVariable("CIRCLE_TAG")}");
     Information($"Build configuration: {Configuration}");
 
-        CSharpCoverageThreshold = 0;
+    EnsureDirectoryExists(OutputPath);
+    CSharpCoverageThreshold = 0;
     // CSharpCoverageExcludePatterns.Add("**/*.Designer.cs");
+
+    var files = GetFiles(".artifacts/*");
+    foreach(var file in files)
+    {
+        Information("File: {0}", file);
+    }
 });
 
 Task("EnsureOutputPathExists")
@@ -51,7 +79,27 @@ Task("Restore")
 Task("Build")
     .Does(() =>
 {
-    DotNetCoreBuild(".", new DotNetCoreBuildSettings { Configuration = Configuration });
+    var buildSettings = new DotNetCoreBuildSettings
+    {
+        Configuration = Configuration
+    };
+
+    var isReleaseBuild = Configuration == "Release";
+    if (isReleaseBuild)
+    {
+        Information($"Release Build");
+    }
+    else
+    {
+        var buildNumber = $"t{DateTime.UtcNow.ToString("yyMMddHHmmss")}";
+
+        buildSettings.VersionSuffix = buildNumber;
+        Information($"Prerelease Build Number: {buildNumber}");
+    }
+
+    DotNetCoreBuild(".", buildSettings);
+
+    MoveFiles("./src/**/*.nupkg", OutputPath);
 });
 
 Task("DotNetTestWithCodeCoverage")
@@ -98,42 +146,25 @@ public void RunMiniCover(
     DotNetCoreTool("./tools/tools.csproj", "minicover", $"report --workdir ../ --threshold {coverageThreshold}");
 }
 
-Task("Pack")
-    .Does(() => ForEachProject("./src/*", (projectDir, projectFile) => {
-        var settings = new DotNetCorePackSettings
-        {
-            Configuration = Configuration,
-            OutputDirectory = OutputPath
-        };
-
-        var isReleaseBuild = Configuration == "Release";
-        if (isReleaseBuild)
-        {
-            Information($"Release Build");
-        }
-        else
-        {
-            var buildNumber = $"t{DateTime.UtcNow.ToString("yyMMddHHmmss")}";
-
-            settings.VersionSuffix = buildNumber;
-            Information($"Prerelease Build Number: {buildNumber}");
-        }
-
-        DotNetCorePack(projectDir.FullPath, settings);
-    })
-);
-
-Task("Push")
+Task("PublishPackages")
     .Does(() =>
 {
-    DotNetCoreNuGetPush(
-        OutputPath + "/*.nupkg",
-        new DotNetCoreNuGetPushSettings
-        {
-            Source = "https://www.nuget.org/api/v2/package",
-            ApiKey = EnvironmentVariable("NUGET_API_KEY")
-        }
-    );
+    var files = GetFiles(".artifacts/*.nupkg");
+    foreach(var file in files)
+    {
+        Information("File: {0}", file);
+    }
+
+    ForEachNugetPackage(packageFile => {
+        Information($"Publishing: {packageFile.FullPath}");
+        DotNetCoreNuGetPush(
+            packageFile.FullPath, new DotNetCoreNuGetPushSettings
+            {
+                Source = "https://www.nuget.org/api/v2/package",
+                ApiKey = EnvironmentVariable("NUGET_API_KEY")
+            }
+        );
+    }, ".artifacts/*.nupkg");
 });
 
 //////////////////////////////////////////////////////////////////////
@@ -142,9 +173,5 @@ Task("Push")
 
 Task("Default")
     .IsDependentOn("DotNetTestWithCodeCoverage");
-
-Task("Publish")
-    .IsDependentOn("Pack")
-    .IsDependentOn("Push");
 
 RunTarget(DefaultTarget);
