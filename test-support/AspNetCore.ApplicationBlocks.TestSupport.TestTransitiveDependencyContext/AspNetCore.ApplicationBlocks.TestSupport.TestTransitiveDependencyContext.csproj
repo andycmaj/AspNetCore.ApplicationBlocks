@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <PackageId>AspNetCore.ApplicationBlocks.TestSupport.TestTransitiveDependencyContext</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AspNetCore.ApplicationBlocks\AspNetCore.ApplicationBlocks.csproj" />
+  </ItemGroup>
+</Project>

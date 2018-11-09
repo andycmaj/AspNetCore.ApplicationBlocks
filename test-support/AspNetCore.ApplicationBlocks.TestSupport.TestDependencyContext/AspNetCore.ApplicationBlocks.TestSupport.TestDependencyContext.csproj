@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <LangVersion>latest</LangVersion>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AspNetCore.ApplicationBlocks\AspNetCore.ApplicationBlocks.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.ApplicationBlocks.TestSupport.TestTransitiveDependencyContext" Version="0.0.1" />
+    <PackageReference Include="FluentAssertions" Version="5.4.2"/>
+  </ItemGroup>
+</Project>

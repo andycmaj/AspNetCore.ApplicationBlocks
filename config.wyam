@@ -1,0 +1,9 @@
+#recipe Docs
+// https://wyam.io/recipes/docs/
+
+// Customize your settings and add new ones here
+Settings[Keys.Host] = "applicationblocks.apidocs.iqvia.io";
+Settings[DocsKeys.Title] = "Application Blocks";
+Settings[Keys.LinkHideExtensions] = false;
+
+// Add any pipeline customizations here

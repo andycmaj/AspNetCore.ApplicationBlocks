@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <LangVersion>latest</LangVersion>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+    <PackageReference Include="FakeItEasy" Version="4.9.1" />
+    <PackageReference Include="FluentAssertions" Version="5.4.2" />
+    <PackageReference Include="Bogus" Version="24.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AspNetCore.ApplicationBlocks.FrontEnd\AspNetCore.ApplicationBlocks.FrontEnd.csproj" />
+    <ProjectReference Include="..\..\src\AspNetCore.ApplicationBlocks\AspNetCore.ApplicationBlocks.csproj" />
+    <ProjectReference Include="..\..\test-support\AspNetCore.ApplicationBlocks.TestSupport.TestDependencyContext\AspNetCore.ApplicationBlocks.TestSupport.TestDependencyContext.csproj" />
+  </ItemGroup>
+</Project>
