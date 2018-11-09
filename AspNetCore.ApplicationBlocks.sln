@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.ApplicationBlock
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.ApplicationBlocks.TestSupport.TestTransitiveDependencyContext", "test-support\AspNetCore.ApplicationBlocks.TestSupport.TestTransitiveDependencyContext\AspNetCore.ApplicationBlocks.TestSupport.TestTransitiveDependencyContext.csproj", "{937DDF7B-26E1-41A8-A6F3-BCA1DB7AD959}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tools", "tools\tools.csproj", "{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,18 @@ Global
 		{937DDF7B-26E1-41A8-A6F3-BCA1DB7AD959}.Release|x64.Build.0 = Release|Any CPU
 		{937DDF7B-26E1-41A8-A6F3-BCA1DB7AD959}.Release|x86.ActiveCfg = Release|Any CPU
 		{937DDF7B-26E1-41A8-A6F3-BCA1DB7AD959}.Release|x86.Build.0 = Release|Any CPU
+		{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}.Debug|x64.Build.0 = Debug|Any CPU
+		{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}.Debug|x86.Build.0 = Debug|Any CPU
+		{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}.Release|x64.ActiveCfg = Release|Any CPU
+		{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}.Release|x64.Build.0 = Release|Any CPU
+		{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}.Release|x86.ActiveCfg = Release|Any CPU
+		{0E915ECA-EC0E-4CB7-949F-A2B5E6BF2406}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
