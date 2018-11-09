@@ -5,15 +5,39 @@ using System.Linq;
 using System.Reflection;
 using SimpleInjector;
 
-// This class is placed in the root namespace to allow users to start using these extension methods after
-// adding the assembly reference, without find and add the correct namespace.
-namespace AndyC.Patterns.SimpleInjector
+namespace AspNetCore.ApplicationBlocks.DependencyInjection
 {
     /// <summary>
     /// Extension methods for working with packages.
     /// </summary>
     public static class ModuleDiscoveryExtensions
     {
+        /// <summary>
+        /// Register specified modules in the Container
+        /// </summary>
+        /// <param name="container">The composition root</param>
+        /// <param name="modules">A list of <c>IModule</c>s to add to the Container</param>
+        /// <returns></returns>
+        public static Container WithModules(
+            this Container container,
+            params IModule[] modules
+        )
+        {
+            foreach (var module in modules)
+            {
+                module.RegisterServices(container);
+            }
+
+            return container;
+        }
+
+        /// <summary>
+        /// Find all <c>Types</c> that are assignable from the specified <c>Type</c>.
+        /// Does not include abstract or open generics.
+        /// </summary>
+        /// <typeparam name="T">The <c>Type</c> to match</typeparam>
+        /// <param name="assemblies">An emumerable of <c>Assemblies</c> to search through</param>
+        /// <returns>A list of <c>Types</c> that match the specified <typeparamref name="T" /></returns>
         public static IList<Type> FindTypes<T>(IEnumerable<Assembly> assemblies)
         {
             return (
@@ -28,7 +52,7 @@ namespace AndyC.Patterns.SimpleInjector
         }
 
         /// <summary>
-        /// Loads all <see cref="AspNetCore.ApplicationBlocks.DependencyInjection.IModule"/> implementations from the given set of
+        /// Loads all <see cref="IModule"/> implementations from the given set of
         /// <paramref name="assemblies"/> and, optionally, calls <paramref name="registerModule"/> to register them.
         /// Note that only publicly exposed classes that contain a public default constructor will be loaded.
         /// </summary>
