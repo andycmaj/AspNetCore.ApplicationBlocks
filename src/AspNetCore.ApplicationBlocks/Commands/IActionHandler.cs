@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace AspNetCore.ApplicationBlocks.Commands
 {
     /// <summary>

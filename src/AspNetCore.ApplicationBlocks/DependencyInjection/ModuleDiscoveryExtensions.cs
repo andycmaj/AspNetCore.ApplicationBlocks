@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using AspNetCore.ApplicationBlocks.DependencyInjection;
 using SimpleInjector;
 
-namespace AspNetCore.ApplicationBlocks.DependencyInjection
+namespace AspNetCore.ApplicationBlocks
 {
     /// <summary>
     /// Extension methods for working with packages.

@@ -1,7 +1,6 @@
 using AspNetCore.ApplicationBlocks.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 
 namespace AspNetCore.ApplicationBlocks
 {

@@ -3,7 +3,6 @@ using AspNetCore.ApplicationBlocks.Configuration;
 using AspNetCore.ApplicationBlocks.DependencyInjection;
 using SerilogEventLogger;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Filters;
 using SimpleInjector;
@@ -12,22 +11,16 @@ namespace AspNetCore.ApplicationBlocks.Logging
 {
     internal class LoggingModule : IModule
     {
-        private readonly IConfiguration frameworkConfiguration;
         private readonly Lifestyle defaultLifestyle;
-        private readonly bool logToConsole;
-        private readonly Type[] customExclusions;
+        private readonly Action<LoggerConfiguration> configureSerilogLogger;
 
         public LoggingModule(
-            IConfiguration frameworkConfiguration,
             Lifestyle defaultLifestyle = null,
-            bool logToConsole = false,
-            params Type[] customExclusions
+            Action<LoggerConfiguration> configureSerilogLogger = null
         )
         {
-            this.frameworkConfiguration = frameworkConfiguration;
             this.defaultLifestyle = defaultLifestyle ?? Lifestyle.Scoped;
-            this.logToConsole = logToConsole;
-            this.customExclusions = customExclusions;
+            this.configureSerilogLogger = configureSerilogLogger;
         }
 
         public void RegisterServices(Container container)
@@ -51,9 +44,9 @@ namespace AspNetCore.ApplicationBlocks.Logging
                 var serilogConfig =
                     container.GetInstance<LoggingConfiguration>().SerilogConfiguration;
 
-                foreach (var customExclusion in customExclusions)
+                if (configureSerilogLogger != null)
                 {
-                    serilogConfig.Filter.ByExcluding(Matching.FromSource(customExclusion.FullName));
+                    configureSerilogLogger(serilogConfig);
                 }
 
                 Log.Logger = serilogConfig.CreateLogger();

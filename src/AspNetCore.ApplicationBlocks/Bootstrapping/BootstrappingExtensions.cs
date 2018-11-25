@@ -4,8 +4,9 @@ using SerilogEventLogger;
 using Microsoft.Extensions.DependencyModel;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
+using AspNetCore.ApplicationBlocks.Bootstrapping;
 
-namespace AspNetCore.ApplicationBlocks.Bootstrapping
+namespace AspNetCore.ApplicationBlocks
 {
     /// <summary>
     /// Bootstrapping Application Block
@@ -41,7 +42,7 @@ namespace AspNetCore.ApplicationBlocks.Bootstrapping
 
         /// <summary>
         /// Resolve and execute all <see cref="IBootstrapper">IBootstrappers</see>
-        /// registered by <see cref="AspNetCore.ApplicationBlocks.Bootstrapping.BootstrappingExtensions.AddBootstrappers(Container, DependencyContext)">
+        /// registered by <see cref="AddBootstrappers(Container, DependencyContext)">
         /// container.AddBootstrappers(...)</see>
         /// </summary>
         /// <param name="container">The <c>Container</c></param>

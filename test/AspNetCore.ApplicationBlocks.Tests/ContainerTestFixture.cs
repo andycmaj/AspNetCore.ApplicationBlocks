@@ -1,5 +1,9 @@
 ﻿using System;
+using AspNetCore.ApplicationBlocks.Configuration;
+using FakeItEasy;
 using FluentAssertions;
+using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyModel;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
@@ -27,6 +31,27 @@ namespace AspNetCore.ApplicationBlocks.Tests
 
             Container = new Container();
             Container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+        }
+
+        public ContainerTestFixture WithApplicationConfiguration(
+            string environment = "testEnvironment",
+            string application = "testApplication",
+            string version = "testVersion",
+            string hostName = "testHost"
+        )
+        {
+            var mockConfig = A.Fake<IApplicationConfiguration>(config => config.ConfigureFake(
+                fake => {
+                    A.CallTo(() => fake.Environment).Returns(environment);
+                    A.CallTo(() => fake.Application).Returns(application);
+                    A.CallTo(() => fake.Version).Returns(version);
+                    A.CallTo(() => fake.Hostname).Returns(hostName);
+                }
+            ));
+
+            Container.RegisterInstance<IApplicationConfiguration>(mockConfig);
+
+            return this;
         }
 
         public ContainerTestFixture WithRegistrations(Action<Container> register)

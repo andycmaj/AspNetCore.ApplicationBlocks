@@ -4,7 +4,6 @@ using AspNetCore.ApplicationBlocks.Commands;
 using AspNetCore.ApplicationBlocks.TestSupport.TestDependencyContext;
 using AspNetCore.ApplicationBlocks.TestSupport.TestTransitiveDependencyContext;
 using SerilogEventLogger;
-using System;
 using Xunit;
 
 namespace AspNetCore.ApplicationBlocks.Tests.Commands

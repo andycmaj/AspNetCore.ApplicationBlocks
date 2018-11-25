@@ -4,7 +4,6 @@ using SimpleInjector.Lifestyles;
 using AspNetCore.ApplicationBlocks.Bootstrapping;
 using AspNetCore.ApplicationBlocks.Configuration;
 using AspNetCore.ApplicationBlocks.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.AspNetCore.Hosting;
@@ -200,7 +199,7 @@ namespace AspNetCore.ApplicationBlocks.Console
 
             container
                 .AddApplicationConfiguration<TAppConfigInterface, TAppConfigImplementation>(frameworkConfiguration, hostingEnvironment)
-                .AddEventLogging(frameworkConfiguration, defaultLifestyle: defaultLifestyle)
+                .AddEventLogging(defaultLifestyle)
                 .AddCommands(defaultLifestyle, dependencyContext)
                 .AddBootstrappers(dependencyContext);
 

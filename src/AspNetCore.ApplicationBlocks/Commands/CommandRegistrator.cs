@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyModel;
@@ -33,7 +32,7 @@ namespace AspNetCore.ApplicationBlocks.Commands
 
         private static IEnumerable<CommandHandlerRegistration> FindRegistrations(Assembly assembly)
         {
-            return 
+            return
                 from type in assembly.GetExportedTypes()
                 where type.GetInterfaces().Any(IsCommandHandler) && !type.GetTypeInfo().IsAbstract
                 let commandInterface = type.GetInterfaces().Single(IsCommandHandler)
