@@ -31,6 +31,7 @@ namespace AspNetCore.ApplicationBlocks.FrontEnd.Middleware
                     RemoteIpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
                     httpContext.Connection.RemotePort,
                 },
+                httpContext.Request.QueryString,
                 User = httpContext.User?.Identity?.Name,
                 RequestMethod = httpContext.Request.Method,
                 RequestPath = httpContext.Request.Path.Value,
