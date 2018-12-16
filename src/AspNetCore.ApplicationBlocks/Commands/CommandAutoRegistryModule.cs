@@ -34,10 +34,7 @@ namespace AspNetCore.ApplicationBlocks.Commands
                 {
                     if (registration.IsDecorator)
                     {
-                        container.RegisterDecorator(
-                            registration.Interface,
-                            registration.Implementation,
-                            commandLifestyle);
+                        // don't register decorators. let consumers do that.
                     }
                     else
                     {

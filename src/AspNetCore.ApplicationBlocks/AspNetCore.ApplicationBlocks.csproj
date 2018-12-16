@@ -4,8 +4,8 @@
     <PackageId>AspNetCore.ApplicationBlocks</PackageId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SimpleInjector" Version="4.4.0" />
-    <PackageReference Include="SerilogEventLogger" Version="0.3.2" />
+    <PackageReference Include="SimpleInjector" Version="4.4.2" />
+    <PackageReference Include="SerilogEventLogger" Version="0.3.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.1" />
@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Polly" Version="6.1.1" />
+    <PackageReference Include="Polly" Version="6.1.2" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
   </ItemGroup>
 </Project>
