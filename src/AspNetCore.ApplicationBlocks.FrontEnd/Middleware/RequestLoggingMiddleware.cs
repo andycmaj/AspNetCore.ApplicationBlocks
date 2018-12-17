@@ -2,6 +2,9 @@ using System;
 using System.Threading.Tasks;
 using SerilogEventLogger;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace AspNetCore.ApplicationBlocks.FrontEnd.Middleware
 {
@@ -32,6 +35,7 @@ namespace AspNetCore.ApplicationBlocks.FrontEnd.Middleware
                     httpContext.Connection.RemotePort,
                 },
                 httpContext.Request.QueryString,
+                Headers = httpContext.Request.Headers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToString()),
                 User = httpContext.User?.Identity?.Name,
                 RequestMethod = httpContext.Request.Method,
                 RequestPath = httpContext.Request.Path.Value,
