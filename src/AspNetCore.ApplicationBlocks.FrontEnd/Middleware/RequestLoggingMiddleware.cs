@@ -34,6 +34,7 @@ namespace AspNetCore.ApplicationBlocks.FrontEnd.Middleware
                     RemoteIpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
                     httpContext.Connection.RemotePort,
                 },
+                httpContext.Request.Scheme,
                 httpContext.Request.QueryString,
                 Headers = httpContext.Request.Headers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToString()),
                 User = httpContext.User?.Identity?.Name,
