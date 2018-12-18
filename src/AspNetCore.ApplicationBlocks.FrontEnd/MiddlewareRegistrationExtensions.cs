@@ -80,6 +80,7 @@ namespace AspNetCore.ApplicationBlocks
         /// Optional: Specify <see cref="RequestLocalizationOptions" /> if your MVC application requires
         /// localization.
         /// </param>
+        /// <param name="forwardedHeadersOptions">if specified, configures ForwardedHeaders Middleware for use behind reverse proxies</param>
         /// <returns>The framework <see cref="IApplicationBuilder"/></returns>
         public static IApplicationBuilder UseDefaultUiMiddleware(
             this IApplicationBuilder app,
@@ -90,21 +91,16 @@ namespace AspNetCore.ApplicationBlocks
             bool useSpa = true,
             bool useAuthentication = true,
             Action<ISpaBuilder> configureSpa = null,
-            RequestLocalizationOptions localizationOptions = null
+            RequestLocalizationOptions localizationOptions = null,
+            ForwardedHeadersOptions forwardedHeadersOptions = null
         )
         {
             // Super important that this is first, otherwise all the middleware that is registered after this point
             // will have the incorrect IP address.
-            var forwardedHeadersOptions = new ForwardedHeadersOptions
+            if (forwardedHeadersOptions != null)
             {
-                ForwardedHeaders =
-                    ForwardedHeaders.XForwardedHost |
-                    ForwardedHeaders.XForwardedProto |
-                    ForwardedHeaders.XForwardedFor,
-            };
-            forwardedHeadersOptions.KnownNetworks.Clear();
-            forwardedHeadersOptions.KnownProxies.Clear();
-            app.UseForwardedHeaders(forwardedHeadersOptions);
+                app.UseForwardedHeaders(forwardedHeadersOptions);
+            }
 
             var isDevelopment = env.IsDevelopment();
             var isProduction = env.IsProduction();
@@ -218,6 +214,7 @@ namespace AspNetCore.ApplicationBlocks
         /// (Default: `true`)
         /// </param>
         /// <param name="useSwagger"></param>
+        /// <param name="forwardedHeadersOptions">if specified, configures ForwardedHeaders Middleware for use behind reverse proxies</param>
         /// <returns>The framework <see cref="IApplicationBuilder"/></returns>
         public static IApplicationBuilder UseDefaultApiMiddleware(
             this IApplicationBuilder app,
@@ -225,7 +222,8 @@ namespace AspNetCore.ApplicationBlocks
             IHostingEnvironment env,
             DiagnosticListener diagnosticListener = null,
             bool useAuthentication = true,
-            bool useSwagger = true
+            bool useSwagger = true,
+            ForwardedHeadersOptions forwardedHeadersOptions = null
         )
         {
             return UseDefaultUiMiddleware(
@@ -235,7 +233,8 @@ namespace AspNetCore.ApplicationBlocks
                 diagnosticListener,
                 useSwagger,
                 useSpa: false,
-                useAuthentication: true
+                useAuthentication: true,
+                forwardedHeadersOptions: forwardedHeadersOptions
             );
         }
 
