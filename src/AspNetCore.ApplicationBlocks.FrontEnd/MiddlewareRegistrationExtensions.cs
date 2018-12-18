@@ -95,10 +95,16 @@ namespace AspNetCore.ApplicationBlocks
         {
             // Super important that this is first, otherwise all the middleware that is registered after this point
             // will have the incorrect IP address.
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            var forwardedHeadersOptions = new ForwardedHeadersOptions
             {
-                ForwardedHeaders = ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedFor
-            });
+                ForwardedHeaders =
+                    ForwardedHeaders.XForwardedHost |
+                    ForwardedHeaders.XForwardedProto |
+                    ForwardedHeaders.XForwardedFor,
+            };
+            forwardedHeadersOptions.KnownNetworks.Clear();
+            forwardedHeadersOptions.KnownProxies.Clear();
+            app.UseForwardedHeaders(forwardedHeadersOptions);
 
             var isDevelopment = env.IsDevelopment();
             var isProduction = env.IsProduction();
