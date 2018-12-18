@@ -97,7 +97,7 @@ namespace AspNetCore.ApplicationBlocks
             // will have the incorrect IP address.
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
-                ForwardedHeaders = ForwardedHeaders.All
+                ForwardedHeaders = ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedFor
             });
 
             var isDevelopment = env.IsDevelopment();
